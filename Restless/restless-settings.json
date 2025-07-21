@@ -9,7 +9,7 @@
     },
     {
       "Name": "Restless Service",
-      "Url": "https://localhost:7049/health",
+      "Url": "https://restless.onrender.com/health",
       "IntervalSeconds": 300,
       "MaxRetries": 3,
       "Email": "johnroneldc@gmail.com"
