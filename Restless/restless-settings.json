@@ -16,7 +16,7 @@
     },
     {
       "Name": "PostkitUI",
-      "Url": "https://postkit-kf58.onrender.comsss",
+      "Url": "https://postkit-kf58.onrender.com",
       "IntervalSeconds": 300,
       "MaxRetries": 3,
       "Email": "johnroneldc.new@gmail.com"
@@ -30,10 +30,10 @@
     }
   ],
   "Mailjet": {
-    "ApiKey": "1552f3a94b8993f8490b9a6c9e135ef8",
-    "ApiSecret": "b0cb5c7b203237e32d8e55bef8bc4cab",
-    "FromEmail": "johnroneldc@gmail.com",
-    "FromName": "Restless Monitoring",
-    "TemplateId": 7170287
+    "ApiKey": "",
+    "ApiSecret": "",
+    "FromEmail": "",
+    "FromName": "",
+    "TemplateId": 0
   }
 }
