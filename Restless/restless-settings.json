@@ -13,6 +13,20 @@
       "IntervalSeconds": 300,
       "MaxRetries": 3,
       "Email": "johnroneldc@gmail.com"
+    },
+    {
+      "Name": "PostkitUI",
+      "Url": "https://postkit-kf58.onrender.com",
+      "IntervalSeconds": 300,
+      "MaxRetries": 3,
+      "Email": "johnroneldc@gmail.com"
+    },
+    {
+      "Name": "BetSync",
+      "Url": "https://betsync.onrender.com/health",
+      "IntervalSeconds": 300,
+      "MaxRetries": 3,
+      "Email": "johnroneldc@gmail.com"
     }
   ],
   "Mailjet": {
