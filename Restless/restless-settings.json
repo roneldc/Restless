@@ -20,6 +20,6 @@
     "ApiSecret": "",
     "FromEmail": "",
     "FromName": "",
-    "TemplateId": ""
+    "TemplateId": 0
   }
 }
