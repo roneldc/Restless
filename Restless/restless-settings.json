@@ -1,0 +1,25 @@
+{
+  "Targets": [
+    {
+      "Name": "PostkitAPI",
+      "Url": "https://postkitapi.onrender.com/api/health",
+      "IntervalSeconds": 300,
+      "MaxRetries": 3,
+      "Email": "johnroneldc@gmail.com"
+    },
+    {
+      "Name": "Restless Service",
+      "Url": "https://localhost:7049/health",
+      "IntervalSeconds": 300,
+      "MaxRetries": 3,
+      "Email": "johnroneldc@gmail.com"
+    }
+  ],
+  "Mailjet": {
+    "ApiKey": "",
+    "ApiSecret": "",
+    "FromEmail": "",
+    "FromName": "",
+    "TemplateId": ""
+  }
+}

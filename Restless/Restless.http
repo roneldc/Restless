@@ -1,0 +1,6 @@
+@Restless_HostAddress = http://localhost:5188
+
+GET {{Restless_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
