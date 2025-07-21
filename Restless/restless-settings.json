@@ -5,35 +5,35 @@
       "Url": "https://postkitapi.onrender.com/api/health",
       "IntervalSeconds": 300,
       "MaxRetries": 3,
-      "Email": "johnroneldc@gmail.com"
+      "Email": "johnroneldc.new@gmail.com"
     },
     {
       "Name": "Restless Service",
       "Url": "https://restless.onrender.com/health",
       "IntervalSeconds": 300,
       "MaxRetries": 3,
-      "Email": "johnroneldc@gmail.com"
+      "Email": "johnroneldc.new@gmail.com"
     },
     {
       "Name": "PostkitUI",
-      "Url": "https://postkit-kf58.onrender.com",
+      "Url": "https://postkit-kf58.onrender.comsss",
       "IntervalSeconds": 300,
       "MaxRetries": 3,
-      "Email": "johnroneldc@gmail.com"
+      "Email": "johnroneldc.new@gmail.com"
     },
     {
       "Name": "BetSync",
       "Url": "https://betsync.onrender.com/health",
       "IntervalSeconds": 300,
       "MaxRetries": 3,
-      "Email": "johnroneldc@gmail.com"
+      "Email": "johnroneldc.new@gmail.com"
     }
   ],
   "Mailjet": {
-    "ApiKey": "",
-    "ApiSecret": "",
-    "FromEmail": "",
-    "FromName": "",
-    "TemplateId": 0
+    "ApiKey": "1552f3a94b8993f8490b9a6c9e135ef8",
+    "ApiSecret": "b0cb5c7b203237e32d8e55bef8bc4cab",
+    "FromEmail": "johnroneldc@gmail.com",
+    "FromName": "Restless Monitoring",
+    "TemplateId": 7170287
   }
 }

@@ -1,26 +1,25 @@
 ﻿using Microsoft.Extensions.Options;
-using Org.BouncyCastle.Asn1.X509;
 using Restless.Config;
-using System.Threading;
+using Restless.Interfaces;
 
 namespace Restless.Services
 {
     public class HealthCheckService : BackgroundService
     {
-        private readonly IHttpClientFactory httpClientFactory;
-        private readonly ILogger<HealthCheckService> logger;
-        private readonly List<PingTarget> targets;
-        private readonly EmailAlertService emailService;
         private static readonly TimeSpan PingInterval = TimeSpan.FromMinutes(5);
+        private readonly IHttpClientFactory httpClientFactory;
+        private readonly IOptions<List<PingTarget>> targets;
+        private readonly IEmailAlertService emailService;
+        private readonly ILogger<HealthCheckService> logger;
 
         public HealthCheckService(
-            IHttpClientFactory httpClientFactory,
-            IOptions<List<PingTarget>> options,
-            EmailAlertService emailService,
-            ILogger<HealthCheckService> logger)
+        IHttpClientFactory httpClientFactory,
+        IOptions<List<PingTarget>> targets,
+        IEmailAlertService emailService,
+        ILogger<HealthCheckService> logger)
         {
             this.httpClientFactory = httpClientFactory;
-            this.targets = options.Value;
+            this.targets = targets;
             this.emailService = emailService;
             this.logger = logger;
         }
@@ -29,7 +28,7 @@ namespace Restless.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var tasks = targets.Select(target => PingAsync(target, stoppingToken));
+                var tasks = targets.Value.Select(target => PingAsync(target, stoppingToken));
                 await Task.WhenAll(tasks);
 
 
@@ -38,7 +37,7 @@ namespace Restless.Services
             }
         }
 
-        private async Task PingAsync(PingTarget target, CancellationToken cancellationToken)
+        public async Task PingAsync(PingTarget target, CancellationToken cancellationToken)
         {
             var client = httpClientFactory.CreateClient();
 
