@@ -1,23 +1,24 @@
-﻿
-
-using Mailjet.Client;
+﻿using Mailjet.Client;
 using Mailjet.Client.Resources;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using Restless.Config;
+using Restless.Interfaces;
 
 namespace Restless.Services
 {
-    public class EmailAlertService
+    public class EmailAlertService : IEmailAlertService
     {
-        private readonly MailjetClient client;
+        private readonly IMailjetClientWrapper client;
         private readonly MailjetSettings settings;
         private readonly ILogger<EmailAlertService> logger;
 
-        public EmailAlertService(IOptions<MailjetSettings> options, ILogger<EmailAlertService> logger)
+        public EmailAlertService(IMailjetClientWrapper client,
+        IOptions<MailjetSettings> options,
+        ILogger<EmailAlertService> logger)
         {
-            settings = options.Value;
-            client = new MailjetClient(settings.ApiKey, settings.ApiSecret);
+            this.client = client;
+            this.settings = options.Value;
             this.logger = logger;
         }
 
@@ -28,26 +29,26 @@ namespace Restless.Services
                 Resource = SendV31.Resource
             }
             .Property(Send.Messages, new JArray {
-                new JObject {
-                    {"From", new JObject {
-                  {"Email", "johnroneldc@gmail.com"},
-                  {"Name", "Restless Monitoring"}
-                  }},
-                    {"To", new JArray {
-                  new JObject {
-                   {"Email", target.Email},
-                   {"Name", target.Name}
-                   }
-                  }},
-                    { "TemplateID", settings.TemplateId },
-                    { "TemplateLanguage", true },
-                    { "Subject", $"🌀 [Restless] Alert: Your system {target.Name} is unreachable" },
-                    { "Variables", new JObject {
-                            {"maxRetries", target.MaxRetries},
-                            {"url", target.Url},
-                            {"name", target.Name}
-                    }}
-                }
+            new JObject {
+                {"From", new JObject {
+                    {"Email", settings.FromEmail},
+                    {"Name", settings.FromName}
+                }},
+                {"To", new JArray {
+                    new JObject {
+                        {"Email", target.Email},
+                        {"Name", target.Name}
+                    }
+                }},
+                { "TemplateID", settings.TemplateId },
+                { "TemplateLanguage", true },
+                { "Subject", $"🌀 [Restless] Alert: Your system {target.Name} is unreachable" },
+                { "Variables", new JObject {
+                    {"maxRetries", target.MaxRetries},
+                    {"url", target.Url},
+                    {"name", target.Name}
+                }}
+            }
             });
 
             try

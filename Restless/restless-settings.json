@@ -5,28 +5,28 @@
       "Url": "https://postkitapi.onrender.com/api/health",
       "IntervalSeconds": 300,
       "MaxRetries": 3,
-      "Email": "johnroneldc@gmail.com"
+      "Email": "johnroneldc.new@gmail.com"
     },
     {
       "Name": "Restless Service",
       "Url": "https://restless.onrender.com/health",
       "IntervalSeconds": 300,
       "MaxRetries": 3,
-      "Email": "johnroneldc@gmail.com"
+      "Email": "johnroneldc.new@gmail.com"
     },
     {
       "Name": "PostkitUI",
       "Url": "https://postkit-kf58.onrender.com",
       "IntervalSeconds": 300,
       "MaxRetries": 3,
-      "Email": "johnroneldc@gmail.com"
+      "Email": "johnroneldc.new@gmail.com"
     },
     {
       "Name": "BetSync",
       "Url": "https://betsync.onrender.com/health",
       "IntervalSeconds": 300,
       "MaxRetries": 3,
-      "Email": "johnroneldc@gmail.com"
+      "Email": "johnroneldc.new@gmail.com"
     }
   ],
   "Mailjet": {
