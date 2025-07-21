@@ -1,16 +1,20 @@
 ﻿using Microsoft.Extensions.Options;
 using Restless.Config;
 using Restless.Interfaces;
+using System.Collections.Concurrent;
 
 namespace Restless.Services
 {
     public class HealthCheckService : BackgroundService
     {
-        private static readonly TimeSpan PingInterval = TimeSpan.FromMinutes(5);
+        // Track which targets have already triggered a down alert
+        private static readonly ConcurrentDictionary<string, bool> alertSentMap = new();
+        private static readonly TimeSpan pingInterval = TimeSpan.FromMinutes(5);
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IOptions<List<PingTarget>> targets;
         private readonly IEmailAlertService emailService;
         private readonly ILogger<HealthCheckService> logger;
+
 
         public HealthCheckService(
         IHttpClientFactory httpClientFactory,
@@ -33,44 +37,48 @@ namespace Restless.Services
 
 
                 // Main loop delay (adjust if needed)
-                await Task.Delay(PingInterval, stoppingToken);
+                await Task.Delay(pingInterval, stoppingToken);
             }
         }
 
         public async Task PingAsync(PingTarget target, CancellationToken cancellationToken)
         {
             var client = httpClientFactory.CreateClient();
+            HttpResponseMessage? response = null;
+            Exception? lastException = null;
 
-            int attempts = 0;
-            bool isUp = false;
-
-            while (attempts < target.MaxRetries && !cancellationToken.IsCancellationRequested)
+            for (int attempt = 1; attempt <= target.MaxRetries; attempt++)
             {
                 try
                 {
-                    var response = await client.GetAsync(target.Url);
+                    response = await client.GetAsync(target.Url, cancellationToken);
                     if (response.IsSuccessStatusCode)
                     {
+                        alertSentMap[target.Url] = false;
                         logger.LogInformation("{Name} responded OK ({StatusCode})", target.Name, response.StatusCode);
-                        isUp = true;
-                        break;
+                        return;
                     }
 
                     logger.LogWarning("{Name} responded with status {StatusCode}", target.Name, response.StatusCode);
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "Exception while pinging {Name}", target.Name);
+                    lastException = ex;
+                    logger.LogWarning(ex, "Attempt {Attempt} failed for {Target}", attempt, target.Name);
                 }
 
-                attempts++;
                 await Task.Delay(1000, cancellationToken);
             }
 
-            if (!isUp)
+            if (!alertSentMap.GetOrAdd(target.Url, false))
             {
-                logger.LogError("{Name} is DOWN after {Attempts} attempts", target.Name, target.MaxRetries);
                 await emailService.SendDownAlertAsync(target);
+                alertSentMap[target.Url] = true;
+                logger.LogError("Down alert sent for {Target}", target.Name);
+            }
+            else
+            {
+                logger.LogError("Down alert already sent for {Target}, skipping duplicate alert.", target.Name);
             }
         }
     }
