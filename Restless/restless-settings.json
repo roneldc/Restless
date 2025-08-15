@@ -27,6 +27,13 @@
       "IntervalSeconds": 300,
       "MaxRetries": 3,
       "Email": "johnroneldc.new@gmail.com"
+    },
+    {
+      "Name": "PostkitProxyAPI",
+      "Url": "https://postkitproxyapi.onrender.com/health",
+      "IntervalSeconds": 300,
+      "MaxRetries": 3,
+      "Email": "johnroneldc.new@gmail.com"
     }
   ],
   "Mailjet": {
